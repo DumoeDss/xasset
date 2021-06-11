@@ -332,7 +332,9 @@ namespace libx
 
         private string GetDownloadURL(string filename)
         {
-            return string.Format("{0}{1}/{2}", baseURL, _platform, filename);
+            var res = string.Format("{0}{1}/{2}", baseURL, _platform, filename);
+            Debug.Log(res);
+            return res;
         }
 
         private IEnumerator Checking()
@@ -544,7 +546,7 @@ namespace libx
             if (enableVFS)
             {
                 var dataPath = _savePath + Versions.Dataname;
-                var downloads = _downloader.downloads;
+                var downloads = _downloader.finished;
                 if (downloads.Count > 0 && File.Exists(dataPath))
                 {
                     OnMessage("更新本地版本信息");

@@ -39,7 +39,6 @@ namespace libx
         {
             return new Download()
             {
-                id = id,
                 hash = hash,
                 url = url,
                 len = len,
@@ -50,8 +49,6 @@ namespace libx
         }
 
         #endregion
-
-        public int id { get; set; }
 
         public string error { get; private set; }
 
@@ -156,6 +153,14 @@ namespace libx
                 {
                     error = "unknown error: downloadedBytes < len";
                 }
+                Debug.Log(_request.responseCode);
+                if ((int)_request.responseCode==404)
+                {
+                    error = "文件不存在";
+                    Complete(true);
+                    Debug.LogError(error);
+                    return;
+                }
                 if (!string.IsNullOrEmpty(_request.error))
                 {
                     error = _request.error;
@@ -227,11 +232,13 @@ namespace libx
                 else
                 {
                     File.Delete(tempPath);
+                    //Start();
                 } 
             }
             else
             {
-                error = "文件不存在"; 
+                error = "文件不存在";
+                Debug.Log(error);
             }
         }
 

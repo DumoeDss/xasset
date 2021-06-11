@@ -117,7 +117,13 @@ namespace libx
 			{
 				using (var stream = File.OpenRead (filename)) {
 					var reader = new BinaryReader (stream);
-					return reader.ReadInt32 ();
+					//return reader.ReadInt32 ();
+					//获取版本时因没读完产生错误的Bug
+					while (reader.PeekChar() != -1)
+					{
+						return reader.ReadInt32();
+					}
+					return -1;
 				}
 			}
 			catch (Exception e)
